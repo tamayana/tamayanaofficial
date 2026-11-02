@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TAMA DAN YANA</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(120% 120% at 50% 0%, #1a2a4a 0%, #080a12 55%, #000 100%);color:#fff;font-family:system-ui;text-align:center;min-height:100vh}.box{max-width:420px;margin:0 auto;padding:28px 20px 80px}.main{width:260px;height:260px;border-radius:50%;object-fit:cover;border:3px solid #fff;outline:3px solid #2b7fff;box-shadow:0 0 50px rgba(43,127,255,.5)}.counter{margin:18px auto;background:rgba(255,255,255,.07);border:1px solid rgba(43,127,255,.4);border-radius:18px;padding:16px 12px}.label{font-size:11px;letter-spacing:2px;color:#7ea4d1}.big{font-size:19px;font-weight:800;margin:6px 0}.big b{color:#2b7fff}.total{font-size:15px;font-weight:800;color:#fff;margin-top:10px;line-height:1.5}.total span{color:#2b7fff}.live{font-size:12px;color:#9fb3d1;margin-top:6px}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(120% 120% at 50% 0%, #1a2a4a 0%, #080a12 55%, #000 100%);color:#fff;font-family:system-ui;text-align:center;min-height:100vh}.box{max-width:420px;margin:0 auto;padding:28px 20px 80px}.main{width:260px;height:260px;border-radius:50%;object-fit:cover;border:3px solid #fff;outline:3px solid #2b7fff;box-shadow:0 0 50px rgba(43,127,255,.5)}.counter{margin:18px auto;background:rgba(255,255,255,.07);border:1px solid rgba(43,127,255,.4);border-radius:18px;padding:16px 12px}.label{font-size:11px;letter-spacing:2px;color:#7ea4d1}.big{font-size:19px;font-weight:800;margin:6px 0}.big b{color:#2b7fff}.total{font-size:15px;font-weight:800;color:#fff;margin-top:10px;line-height:1.5}.total span{color:#2b7fff}.live{font-size:13px;color:#9fb3d1;margin-top:6px;font-weight:600}
 h1{margin:18px 0 4px;font-size:34px;letter-spacing:6px}.links{margin-top:22px;display:grid;gap:14px}.link{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:18px;text-decoration:none;font-weight:700;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#fff}.ic{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
 .music-btn{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#2b7fff;color:#fff;border:0;border-radius:99px;padding:12px 20px;font-weight:700;font-size:13px;box-shadow:0 8px 30px rgba(43,127,255,.5);z-index:99}
 </style>
@@ -23,7 +23,7 @@ h1{margin:18px 0 4px;font-size:34px;letter-spacing:6px}.links{margin-top:22px;di
     <div class="label">💙 Bersama Sejak 27 Des 2022 • 15:00 WIB Kalbar</div>
     <div class="big" id="ymd">Loading...</div>
     <div class="total" id="totalJam">Loading total jam...</div>
-    <div class="live" id="detik">live detik</div>
+    <div class="live" id="jamSekarang">Loading jam...</div>
   </div>
   <h1>TAMA & YANA</h1>
   <p style="color:#8da2c0;font-size:13px;margin:0 0 18px">tama dan yana • pacarnya apriliana</p>
@@ -49,31 +49,21 @@ function update(){
   if(mo<0){y--; mo+=12;}
   document.getElementById('ymd').innerHTML=`<b>${y}</b> th <b>${mo}</b> bln <b>${d}</b> hari`;
   document.getElementById('totalJam').innerHTML=`<span>${days} Hari</span> = <span>${hours.toLocaleString('id-ID')} Jam</span><br><span style="font-size:12px">${Math.floor(diff/60000).toLocaleString('id-ID')} Menit • ${Math.floor(diff/1000).toLocaleString('id-ID')} Detik</span>`;
-  const h = String(Math.floor(diff%86400000/3600000)).padStart(2,'0');
-  const m = String(Math.floor(diff%3600000/60000)).padStart(2,'0');
-  const s = String(Math.floor(diff%60000/1000)).padStart(2,'0');
-  document.getElementById('detik').innerText=`${h}:${m}:${s} sejak jam 3 sore Kalbar • live`;
+  
+  // JAM SEKARANG WIB KALBAR
+  const jamNow = now.toLocaleTimeString('id-ID', {timeZone: 'Asia/Pontianak', hour12: false});
+  document.getElementById('jamSekarang').innerText=`Jam sekarang ${jamNow} WIB Kalbar • live`;
 }
 update(); setInterval(update,1000);
 
 const bgm = document.getElementById('bgm');
 const btn = document.getElementById('musicBtn');
 bgm.volume = 0.6;
-
 setTimeout(()=>{
   bgm.muted = false;
-  bgm.play().then(()=>{
-    btn.style.display='none';
-  }).catch(()=>{
-    btn.innerText='🔊 Tap untuk lanjutkan musik';
-  });
+  bgm.play().then(()=>{btn.style.display='none';}).catch(()=>{btn.innerText='🔊 Tap untuk lanjutkan musik';});
 }, 5000);
-
-btn.addEventListener('click', ()=>{
-  bgm.muted=false;
-  bgm.play();
-  btn.style.display='none';
-});
+btn.addEventListener('click', ()=>{bgm.muted=false;bgm.play();btn.style.display='none';});
 </script>
 </body>
 </html>
